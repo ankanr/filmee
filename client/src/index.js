@@ -4,6 +4,7 @@ import Home from './Home';
 import UpcomingMovies from './UpcomingMovies';
 import NowPlaying from './NowPlaying';
 import PopularMovies from './PopularMovies';
+import MovieDetail from './MovieDetail';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import './index.css';
 
@@ -28,10 +29,14 @@ class App extends React.Component {
               </Link>
             </ul>
           </nav>
-          <Route path="/" exact component={Home} />
-          <Route path="/popular" exact component={PopularMovies} />
-          <Route path="/upcoming" exact component={UpcomingMovies} />
-          <Route path="/nowplaying" exact component={NowPlaying} />
+          <h1 className="title">Filmee</h1>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/popular" exact component={PopularMovies} />
+            <Route path="/upcoming" exact component={UpcomingMovies} />
+            <Route path="/nowplaying" exact component={NowPlaying} />
+            <Route path="/movie/:id" exact component={MovieDetail} />
+          </Switch>
         </div>
       </Router>
     );

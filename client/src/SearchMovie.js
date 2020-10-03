@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import MovieCard from './MovieCard';
 
 export default function SearchMovies(props) {
@@ -7,6 +8,7 @@ export default function SearchMovies(props) {
   const [movies, setMovies] = useState([]);
 
   const searchMovies = async (e) => {
+    e.preventDefault();
     const apiKey = 'cadbfc0143fadc6622e6d38d2b90c356';
     const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=${query}&include_adult=false`;
 
@@ -41,7 +43,9 @@ export default function SearchMovies(props) {
         {movies
           .filter((movie) => movie.poster_path)
           .map((movie) => (
-            <MovieCard movie={movie} key={movie.id} />
+            <Link to={`movie/${movie.id}`} key={movie.id}>
+              <MovieCard movie={movie} />
+            </Link>
           ))}
       </div>
     </>

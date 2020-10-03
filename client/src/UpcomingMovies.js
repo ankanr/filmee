@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import MovieCard from './MovieCard';
 
 export default function UpcomingMovies(props) {
@@ -26,7 +27,9 @@ export default function UpcomingMovies(props) {
       {movies
         .filter((movie) => movie.poster_path)
         .map((movie) => (
-          <MovieCard movie={movie} key={movie.id} />
+          <Link to={`movie/${movie.id}`} key={movie.id}>
+            <MovieCard movie={movie} />
+          </Link>
         ))}
     </div>
   );
