@@ -144,3 +144,32 @@ a {
     grid-template-columns: auto;
     gap: 2rem;
 }
+
+.streams {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.streams-links {
+    display: flex;
+    margin-top: 5rem;
+    justify-content: space-evenly;
+}
+
+.rating-card {
+    margin-top: 4rem;
+    text-align: center;
+}
+
+.ratings {
+    margin-top: 1rem;
+    display: flex;
+    font-size: 1.2rem;
+    justify-content: space-evenly;
+    align-content: space-between;
+}
+
+.ratings-inside {
+    font-weight: 750;
+    letter-spacing: 1.5px;
+}

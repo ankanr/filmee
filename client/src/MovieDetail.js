@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
+import netflix from './logos/netflix.png';
+import amazon from './logos/amazon.png';
+import imdb from './logos/imdb.png';
 
 export default function MovieDetail({ match }) {
   const [movie, setMovie] = useState([]);
   const [trailerKey, setTrailerKey] = useState([]);
+  const [netflixURL, setNetflixURL] = useState('');
+  const [amazonURL, setAmazonURL] = useState('');
+  const [ratings, setRatings] = useState([]);
+  const [imdbID, setImdbID] = useState('');
 
   useEffect(() => {
     getMovie();
@@ -12,6 +19,7 @@ export default function MovieDetail({ match }) {
 
   const getMovie = async (e) => {
     const apiKey = 'cadbfc0143fadc6622e6d38d2b90c356';
+    const omdbAPIKey = '417362f5';
     const url = `https://api.themoviedb.org/3/movie/${match.params.id}?api_key=${apiKey}&language=en-US`;
     const trailer = `http://api.themoviedb.org/3/movie/${match.params.id}/videos?api_key=${apiKey}`;
 
@@ -19,6 +27,19 @@ export default function MovieDetail({ match }) {
       const res = await fetch(url);
       const data = await res.json();
       setMovie(data);
+      const movieText = data.title;
+      const getImdbURL =
+        `http://www.omdbapi.com/?apikey=${omdbAPIKey}&t=` + movieText;
+      const res3 = await fetch(getImdbURL);
+      const data3 = await res3.json();
+      setImdbID(data3.imdbID);
+      setRatings(data3.Ratings);
+      setNetflixURL(
+        'http://www.netflix.com/Search?lnkctr=srchrd-ips&v1=' + movieText
+      );
+      setAmazonURL(
+        `https://www.amazon.in/s?k=${movieText}&i=instant-video&ref=nb_sb_noss_2`
+      );
       const res2 = await fetch(trailer);
       const data2 = await res2.json();
       setTrailerKey(
@@ -71,6 +92,44 @@ export default function MovieDetail({ match }) {
         ) : (
           <h1>No trailer found From tmdb</h1>
         )}
+      </div>
+
+      <div className="rating-card">
+        <h1>Reviews</h1>
+        <div className="ratings">
+          {ratings.map((rating) => {
+            return (
+              <>
+                <div className="ratings-inside">
+                  {rating.Source} <br />
+                  {rating.Value}
+                </div>
+              </>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="streams">
+        <h1>Streaming at</h1>
+
+        <div className="streams-links">
+          <a href={netflixURL} target="_blank" rel="noopener noreferrer">
+            <img src={netflix} alt="netflix-logo" />
+          </a>
+
+          <a href={amazonURL} target="_blank" rel="noopener noreferrer">
+            <img src={amazon} alt="amazon-logo" />
+          </a>
+
+          <a
+            href={`https://www.imdb.com/title/${imdbID}/?ref_=fn_tt_tt_1`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src={imdb} alt="imdb-logo" />
+          </a>
+        </div>
       </div>
     </div>
   );
