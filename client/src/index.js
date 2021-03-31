@@ -1,12 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import reduxThunk from 'redux-thunk';
+
+import GoogleAuth from './GoogleAuth';
 import Home from './Home';
 import UpcomingMovies from './UpcomingMovies';
 import NowPlaying from './NowPlaying';
 import PopularMovies from './PopularMovies';
 import MovieDetail from './MovieDetail';
+
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import './index.css';
+
+import reducers from './reducers';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+  reducers,
+  composeEnhancers(applyMiddleware(reduxThunk))
+);
 
 class App extends React.Component {
   render() {
@@ -27,6 +43,7 @@ class App extends React.Component {
               <Link to="/nowplaying">
                 <li>Now Playing</li>
               </Link>
+              <GoogleAuth />
             </ul>
           </nav>
           <h1 className="title">Filmee</h1>
@@ -45,4 +62,9 @@ class App extends React.Component {
 
 export default App;
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.querySelector('#root')
+);
